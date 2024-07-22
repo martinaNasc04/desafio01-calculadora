@@ -4,23 +4,22 @@ import { Container, Content, Row } from "./components/styles";
 import { useState } from "react";
 
 const App = () => {
-  const [currentNumber, setCurrentNumber] = useState(0);
-  const [firstNumber, setFirstNumber] = useState(0);
-  const [operation, setOperation] = useState();
+  const [currentNumber, setCurrentNumber] = useState('0');
+  const [firstNumber, setFirstNumber] = useState('0');
+  const [operation, setOperation] = useState('');
 
-  //clear function
   const handleOnClear = () => {
     setCurrentNumber('0')
     setFirstNumber('0')
     setOperation('')
-  }
+  };
 
-  //adding numbers
   const handleAddNumber = (num) => {
-    setCurrentNumber(prev => `${prev === '0' ? '' : prev}${num} `)
+    setCurrentNumber(prev => `${prev === '0' ? '' : prev}${num}`)
   }
 
-  //sum function
+
+  //sum operation
   const handleSumNumbers = () => {
     if (firstNumber === '0') {
       setFirstNumber(String(currentNumber));
@@ -33,7 +32,7 @@ const App = () => {
     }
   }
 
-  //rem function
+  //rem operation
   const handleMinusNumbers = () => {
     if (firstNumber === '0') {
       setFirstNumber(String(currentNumber));
@@ -45,7 +44,32 @@ const App = () => {
       setOperation('');
     }
   }
+  //multiplication operation
+  const handleTimesNumbers = () => {
+    if (firstNumber === '0') {
+      setFirstNumber(String(currentNumber));
+      setCurrentNumber('0');
+      setOperation('x');
+    } else {
+      const times = Number(firstNumber) * Number(currentNumber);
+      setCurrentNumber(String(times));
+      setOperation('');
+    }
+  }
+  //division operation
+  const handleDivisionNumbers = () => {
+    if (firstNumber === '0') {
+      setFirstNumber(String(currentNumber));
+      setCurrentNumber('0');
+      setOperation('/');
+    } else {
+      const divide = Number(firstNumber) / Number(currentNumber);
+      setCurrentNumber(String(divide));
+      setOperation('');
+    }
+  }
 
+  //equal operation
   const handleEquals = () => {
     if (firstNumber !== '0' && operation !== '' && currentNumber !== '0') {
       switch (operation) {
@@ -54,6 +78,12 @@ const App = () => {
           break;
         case '-':
           handleMinusNumbers()
+          break;
+        case 'x':
+          handleTimesNumbers()
+          break;
+        case '/':
+          handleDivisionNumbers()
           break;
         default: break;
       }
@@ -64,8 +94,8 @@ const App = () => {
       <Content>
         <Input value={currentNumber} />
         <Row>
-          <Button label="x" />
-          <Button label="/" />
+          <Button label="x" onClick={handleTimesNumbers} />
+          <Button label="/" onClick={handleDivisionNumbers} />
           <Button label="c" onClick={handleOnClear} />
           <Button label="." />
         </Row>
